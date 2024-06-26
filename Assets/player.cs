@@ -1,16 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;  // この２行を追加する． 
+using TMPro;       // この２行を追加する．
 
 public class player : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI Trap;
     Transform myTransform;    // transform情報を格納する変数 
     Vector3 initial_position;     // 物体の初期位置を格納する変数
     //Vector3 initial_rotate;
-    int flag_t = 0;
-    int flag_m = 0;
-    int flag_d = 0;
-    int flag_v = 0;
+    int f_time = 0;
+    int f_move = 0;
+    int f_direction = 0;
+    int f_velocity = 0;
     int timer = 0;
     // Start is called before the first frame update 
     void Start() 
@@ -24,9 +27,9 @@ public class player : MonoBehaviour
     // Update is called once per frame 
     void Update() 
     {
-        if (flag_t == 1)
+        if (f_time == 1)
         {
-            if (flag_d == 1)
+            if (f_direction == 1)
             {
                 if (Input.GetKey("up")) // ↑なら前（Z方向）に0.1だけ進む 
                 { 
@@ -37,11 +40,11 @@ public class player : MonoBehaviour
                     transform.position -= transform.forward * 0.1f; 
                 }
             }
-            else if (flag_m == 1)
+            else if (f_move == 1)
             {
 
             }
-            else if (flag_v == 1)
+            else if (f_velocity == 1)
             {
                 if (Input.GetKey("up")) // ↑なら前（Z方向）に0.1だけ進む 
                 { 
@@ -63,9 +66,9 @@ public class player : MonoBehaviour
             timer += 1;
             if (timer == 60 * 10)
             {
-                flag_t = 0;
-                flag_m = 0;
-                flag_d = 0;
+                f_time = 0;
+                f_move = 0;
+                f_direction = 0;
                 timer = 0;
             }
         }
@@ -104,24 +107,26 @@ public class player : MonoBehaviour
             {
                 this.transform.position = initial_position;
                 //this.transform.Rotate(initial_rotate);
-                Debug.Log("リスタート");
+                Trap.text = "リスタート";
             }
-            if (probability == 1)
+            else if (probability == 1)
             {
-                flag_d = 1;
-                Debug.Log("特定の方向");
+                f_time = 1;
+                f_direction = 1;
+                Trap.text = "特定の方向";
             }
-            if (probability == 2)
+            else if (probability == 2)
             {
-                flag_v = 1;
-                Debug.Log("速度2倍");
+                f_time = 1;
+                f_velocity = 1;
+                Trap.text = "速度2倍";
             }
-            if (probability == 3)
+            else if (probability == 3)
             {
-                flag_m = 1;
-                Debug.Log("動きを止める");
+                f_time = 1;
+                f_move = 1;
+                Trap.text = "動きを止める";
             }
-            flag_t = 1;
         } 
     } 
 }
